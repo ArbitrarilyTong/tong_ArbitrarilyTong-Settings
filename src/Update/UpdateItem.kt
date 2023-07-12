@@ -2,12 +2,12 @@ package top.easterNday.settings.Update
 
 import android.content.Context
 import android.text.format.Formatter
-import top.easterNday.settings.DogDay.Utils.Companion.toDate
+import top.easterNday.settings.DogDay.Utils.Companion.convertUnixToLocalTime
 import top.easterNday.settings.R
 
 class UpdateItem(
     context: Context,
-    dateItem: Double,
+    dateItem: Long,
     descItem: String,
     titleItem: String,
     sizeItem: Long,
@@ -18,7 +18,7 @@ class UpdateItem(
     val updateTitle = titleItem
     val updateVersion = context.getString(R.string.update_version, versionItem)
     val updateSize: String = context.getString(R.string.update_size, Formatter.formatFileSize(context, sizeItem))
-    val updateDate = context.getString(R.string.update_date,toDate(dateItem))
+    val updateDate = context.getString(R.string.update_date,convertUnixToLocalTime(dateItem))
     val updateDesc = if (descItem.isNotEmpty()) {
         context.getString(R.string.update_desc, descItem)
     } else {

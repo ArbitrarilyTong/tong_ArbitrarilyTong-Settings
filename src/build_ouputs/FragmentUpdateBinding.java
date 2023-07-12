@@ -4,7 +4,6 @@ package top.easterNday.settings.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
@@ -23,14 +22,10 @@ public final class FragmentUpdateBinding implements ViewBinding {
   @NonNull
   public final RecyclerView downloadListView;
 
-  @NonNull
-  public final TextView textView;
-
   private FragmentUpdateBinding(@NonNull NestedScrollView rootView,
-      @NonNull RecyclerView downloadListView, @NonNull TextView textView) {
+      @NonNull RecyclerView downloadListView) {
     this.rootView = rootView;
     this.downloadListView = downloadListView;
-    this.textView = textView;
   }
 
   @Override
@@ -66,13 +61,7 @@ public final class FragmentUpdateBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.textView;
-      TextView textView = ViewBindings.findChildViewById(rootView, id);
-      if (textView == null) {
-        break missingId;
-      }
-
-      return new FragmentUpdateBinding((NestedScrollView) rootView, downloadListView, textView);
+      return new FragmentUpdateBinding((NestedScrollView) rootView, downloadListView);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
