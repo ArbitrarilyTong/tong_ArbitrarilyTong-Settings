@@ -25,7 +25,7 @@ import java.util.*
 
 
 class
-UpdatesListAdapter(private val mContext: Context, private val dataSet: ArrayList<UpdateItem>) :
+UpdatesListAdapter(private val mContext: Context, private var dataSet: ArrayList<UpdateItem>) :
     RecyclerView.Adapter<UpdatesListAdapter.ViewHolder>() {
     /**
      * Provide a reference to the type of views that you are using
@@ -76,15 +76,15 @@ UpdatesListAdapter(private val mContext: Context, private val dataSet: ArrayList
 
     @SuppressLint("RestrictedApi")
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val downloadUrl = dataSet[position].updateUrl
-        val updateLog = dataSet[position].updateDesc
-        val filename = dataSet[position].updateTitle
+        val downloadUrl = dataSet[position].url
+        val updateLog = dataSet[position].describe
+        val filename = dataSet[position].filename
 
         viewHolder.title.text = filename
-        viewHolder.version.text = dataSet[position].updateVersion
-        viewHolder.datetime.text = dataSet[position].updateDate
-        viewHolder.size.text = dataSet[position].updateSize
-        viewHolder.tag.text = dataSet[position].updateTag
+        viewHolder.version.text = dataSet[position].version
+        viewHolder.datetime.text = dataSet[position].datetime
+        viewHolder.size.text = dataSet[position].size
+        viewHolder.tag.text = dataSet[position].tag
 
         // 绑定 Popup 菜单功能
         viewHolder.mMenu.setOnClickListener {
@@ -95,11 +95,10 @@ UpdatesListAdapter(private val mContext: Context, private val dataSet: ArrayList
         viewHolder.setDownload(downloadUrl, filename)
     }
 
-    fun addUpdateItem(item: UpdateItem) {
-        // 异步添加item的逻辑
-        dataSet.add(item)
-        // 添加完成后调用notifyItemInserted()方法
-        notifyItemInserted(dataSet.size - 1) // 获取新添加item的位置
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(newData: ArrayList<UpdateItem>) {
+        dataSet = newData
+        notifyDataSetChanged()
     }
 
     private fun ViewHolder.showPopup(url: String, log: String) {
@@ -119,6 +118,10 @@ UpdatesListAdapter(private val mContext: Context, private val dataSet: ArrayList
                 R.id.menu_update_log -> {
                     showAlertDialog(mContext, mContext.getString(R.string.text_menu_update_log), log)
                     true
+                }
+
+                R.id.menu_delete_action -> {
+                    TODO()
                 }
 
                 else -> false
